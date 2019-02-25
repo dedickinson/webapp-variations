@@ -5,14 +5,34 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js"
+    "clean": "rimraf node_modules",
+    "start": "node server.js",
+    "dev-start": "nodemon ./server.js",
+    "depcheck": "depcheck --ignores=\"husky\"",
+    "lint": "jshint .",
+    "pre-flight": "npm-run-all depcheck lint"
   },
   "author": "Duncan Dickinson",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "bootstrap": "^4.3.1",
     "handlebars": "^4.1.0",
     "hapi": "^17.8.4",
     "vision": "^5.4.4"
+  },
+  "devDependencies": {
+    "depcheck": "^0.7.1",
+    "husky": "^1.3.1",
+    "jshint": "^2.10.1",
+    "nodemon": "^1.18.10",
+    "npm-run-all": "^4.1.5",
+    "rimraf": "^2.6.3"
+  },
+  "jshintConfig": {
+    "esversion": 9
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run pre-flight"
+    }
   }
 }
