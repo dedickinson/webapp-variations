@@ -34,7 +34,9 @@ const rootHandler = (request, h) => {
 
 internals.main = async () => {
 
-    const server = Hapi.Server({ port: 3000 });
+    // Use Port 3000 unless we get an environment variable telling us otherwise
+    // See https://docs.microsoft.com/en-gb/azure/app-service/app-service-web-get-started-nodejs
+    const server = Hapi.Server({ port: process.env.PORT | 3000 });
 
     await server.register(Vision);
 
