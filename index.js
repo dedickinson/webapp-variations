@@ -1,0 +1,54 @@
+'use strict';
+// Load modules
+
+const Hapi = require('hapi');
+const Vision = require('vision');
+const Path = require('path');
+const Handlebars = require('handlebars');
+
+
+// Declare internals
+
+const internals = {
+    templatePath: 'basic'
+};
+
+const today = new Date();
+internals.thisYear = today.getFullYear();
+internals.loremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum."
+
+
+const rootHandler = (request, h) => {
+
+    const relativePath = Path.relative(`${__dirname}/../..`, `${__dirname}/templates/${internals.templatePath}`);
+
+    return h.view('index', {
+        title: 'Weather Balloon',
+        page_title: 'Weather Balloon',
+        page_lead: 'This is the basic starter site',
+        page_content: internals.loremIpsum.repeat(10),
+        year: internals.thisYear
+    });
+};
+
+
+internals.main = async () => {
+
+    const server = Hapi.Server({ port: 3000 });
+
+    await server.register(Vision);
+
+    server.views({
+        engines: { html: Handlebars },
+        relativeTo: __dirname,
+        path: `templates/${internals.templatePath}`
+    });
+
+    server.route({ method: 'GET', path: '/', handler: rootHandler });
+
+    await server.start();
+    console.log('Server is running at ' + server.info.uri);
+};
+
+
+internals.main();
