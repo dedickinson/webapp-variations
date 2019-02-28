@@ -1,0 +1,18 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "sites_wb_js_site_basic_name": {
+            "value": null
+        },
+        "serverfarms_wb_js_site_basic_name": {
+            "value": null
+        },
+        "config_web_name": {
+            "value": null
+        },
+        "hostNameBindings_wb_js_site_basic.azurewebsites.net_name": {
+            "value": null
+        }
+    }
+}

@@ -1,0 +1,89 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "site_name": {
+            "defaultValue": "wb-js-site-basic-arm",
+            "type": "string"
+        },
+        "app_service_plan_name": {
+            "defaultValue": "wb-js-site-basic-arm",
+            "type": "string"
+        },
+        "app_service_plan_sku": {
+            "defaultValue": {
+                "name": "F1",
+                "tier": "Free",
+                "size": "F1",
+                "family": "F",
+                "capacity": 0
+            },
+            "type": "object"
+        },
+        "deployment_location": {
+            "type": "string",
+            "defaultValue": "Central US"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "comments": "This is the App Service Plan",
+            "type": "Microsoft.Web/serverfarms",
+            "sku": "[parameters('app_service_plan_sku')]",
+            "kind": "app",
+            "name": "[parameters('app_service_plan_name')]",
+            "apiVersion": "2018-02-01",
+            "location": "[parameters('deployment_location')]",
+            "properties": {},
+            "dependsOn": []
+        },
+        {
+            "comments": "This is the WebApp",
+            "type": "Microsoft.Web/sites",
+            "kind": "app",
+            "name": "[parameters('site_name')]",
+            "apiVersion": "2018-02-01",
+            "location": "[parameters('deployment_location')]",
+            "properties": {
+                "enabled": true,
+                "serverFarmId": "[resourceId('Microsoft.Web/serverfarms', parameters('app_service_plan_name'))]",
+                "cloningInfo": null,
+                "httpsOnly": true
+            },
+            "dependsOn": [
+                "[resourceId('Microsoft.Web/serverfarms', parameters('app_service_plan_name'))]"
+            ],
+            "resources": [
+                {
+                    "comments": "Configuration for the WebApp",
+                    "type": "config",
+                    "name": "[concat(parameters('site_name'), '/web')]",
+                    "apiVersion": "2018-02-01",
+                    "properties": {
+                        "netFrameworkVersion": "v4.0",
+                        "phpVersion": "",
+                        "pythonVersion": "",
+                        "nodeVersion": "10.0.0",
+                        "javaVersion": null,
+                        "javaContainer": null,
+                        "javaContainerVersion": null,
+                        "siteAuthEnabled": false,
+                        "http20Enabled": false,
+                        "minTlsVersion": "1.2",
+                        "ftpsState": "Disabled"
+                    }
+                },
+                {
+                    "comments": "Generalized from resource: '/subscriptions/e999a128-5ba0-4de2-80f6-8ac9869a1d72/resourceGroups/wb-js-site-basic/providers/Microsoft.Web/sites/wb-js-site-basic/hostNameBindings/wb-js-site-basic.azurewebsites.net'.",
+                    "type": "hostNameBindings",
+                    "name": "[concat(parameters('sites_wb_js_site_basic_name'), '/', parameters('hostNameBindings_wb_js_site_basic.azurewebsites.net_name'))]",
+                    "apiVersion": "2018-02-01",
+                    "properties": {
+                        "siteName": "wb-js-site-basic"
+                    }
+                }
+            ]
+        }
+    ]
+}
