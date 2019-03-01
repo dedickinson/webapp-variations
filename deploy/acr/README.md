@@ -12,18 +12,24 @@ I [created a Personal Access Token (PAT)](https://docs.microsoft.com/en-us/azure
 ```bash
 GIT_PAT=YOUR_PAT_GOES_HERE
 
-ACR_NAME=weatherballoon.azurecr.io
+ACR_NAME=weatherballoon
 GIT_REPO=https://weatherballoon@dev.azure.com/weatherballoon/Weather%20Balloon/_git/wb-js-site
 
 az acr task create \
     --registry $ACR_NAME \
     --name wb-js-site \
-    --image helloworld:{{.Run.ID}} \
+    --image wb-js-site:{{.Run.ID}} \
     --context $GIT_REPO \
     --branch master \
     --file Dockerfile \
     --git-access-token $GIT_PAT \
     --os Linux
+```
+
+To login to the 
+
+```
+az acr login --name $ACR_NAME
 ```
 
 ## Try out Podman
