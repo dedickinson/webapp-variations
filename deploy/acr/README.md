@@ -10,9 +10,10 @@ Upon code commit, an image is built and deployed to the registry using an [ACR b
 I [created a Personal Access Token (PAT)](https://docs.microsoft.com/en-us/azure/devops/organizations/accounts/use-personal-access-tokens-to-authenticate?view=azure-devops) with Read access on the code.
 
 ```bash
+GIT_PAT=YOUR_PAT_GOES_HERE
+
 ACR_NAME=weatherballoon.azurecr.io
 GIT_REPO=https://weatherballoon@dev.azure.com/weatherballoon/Weather%20Balloon/_git/wb-js-site
-GIT_PAT=YOUR_PAT_GOES_HERE
 
 az acr task create \
     --registry $ACR_NAME \
