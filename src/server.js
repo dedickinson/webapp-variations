@@ -28,6 +28,11 @@ const rootHandler = (request, h) => {
     });
 };
 
+const healthzHandler = (request, h) => {
+    return {
+        status: 'healthy'
+    };
+};
 
 internals.main = async () => {
 
@@ -44,6 +49,7 @@ internals.main = async () => {
     });
 
     server.route({ method: 'GET', path: '/', handler: rootHandler });
+    server.route({ method: 'GET', path: '/healthz', handler: healthzHandler });
 
     await server.start();
     console.log('Server is running at ' + server.info.uri);
