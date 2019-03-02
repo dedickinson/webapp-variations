@@ -16,4 +16,6 @@ COPY src/ ./
 
 RUN npm install --only=production --no-audit --no-optional --no-bin-links --ignore-scripts
 
+EXPOSE 3000
+
 CMD npm start

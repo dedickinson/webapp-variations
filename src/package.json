@@ -2,6 +2,10 @@
   "name": "wb-js-site",
   "version": "0.1.0",
   "description": "The Weather Balloon web site",
+  "repository": {
+    "type": "git",
+    "url": "https://weatherballoon@dev.azure.com/weatherballoon/Weather%20Balloon/_git/wb-js-site"
+  },
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
