@@ -1,0 +1,51 @@
+---
+azure_region: southcentralus
+resource_group_name: AnsibleDemo
+
+virtual_network:
+  name: VNET-ansible-demo
+  cidr: 10.42.0.0/16
+
+security_groups:
+  - name: NSG-internal
+    rules:
+      - name: DenySSH
+        protocol: Tcp
+        destination_port_range: 22
+        access: Deny
+        priority: 100
+        direction: Inbound
+
+  - name: NSG-dmz
+    rules:
+      - name: DenySSH
+        protocol: Tcp
+        destination_port_range: 22
+        access: Deny
+        priority: 100
+        direction: Inbound
+
+  - name: NSG-external
+    rules:
+      - name: AllowSSH
+        protocol: Tcp
+        destination_port_range: 22
+        access: Allow
+        priority: 100
+        direction: Inbound
+
+subnets:
+  - name: SUB-internal
+    address_prefix_cidr: 10.42.1.0/24
+    security_group_name: NSG-internal
+
+  - name: SUB-dmz
+    address_prefix_cidr: 10.42.25.0/24
+    security_group_name: NSG-dmz
+
+  - name: SUB-external
+    address_prefix_cidr: 10.42.50.0/24
+    security_group_name: NSG-external
+
+default_tags:
+  environment: test

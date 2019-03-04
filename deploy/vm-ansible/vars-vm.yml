@@ -1,0 +1,12 @@
+---
+vm_sizes:
+  small: "Basic_A1"
+  medium: "Basic_A2"
+  large: "Basic_A3"
+
+vm_images:
+  centos7:
+    offer: CentOS
+    publisher: OpenLogic
+    sku: '7.4'
+    version: latest

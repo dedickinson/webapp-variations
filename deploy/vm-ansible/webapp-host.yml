@@ -1,0 +1,37 @@
+---
+- import_playbook: base.yml
+
+- name: Deploy a single CentOS host
+  hosts: localhost
+  connection: local
+  vars_files:
+    - vars.yml
+    - vars-vm.yml
+
+  #roles:
+  #  - {role: Azure.azure_preview_modules}
+
+  tasks:
+    - name: Create CentOS VM with no persistent storage
+      azure_rm_virtualmachine:
+        resource_group: "{{ resource_group_name }}"
+        name: demo-centos-vm
+        state: present
+        started: true
+        location: "{{ azure_region }}"
+        virtual_network_name: "{{ virtual_network.name }}"
+        subnet_name: SUB-external
+        vm_size: "{{ vm_sizes.small }}"
+        managed_disk_type: Standard_LRS
+        admin_username: ansible
+        ssh_password_enabled: false
+        ssh_public_keys:
+          - path: /home/ansible/.ssh/authorized_keys
+            key_data: "{{ lookup('file', '~/.ssh/ansible.pub') }}"
+        image: "{{ vm_images.centos7 }}"
+        os_type: Linux
+        public_ip_allocation_method: Dynamic
+        remove_on_absent: all
+        tags:
+          environment: test
+          role: demo

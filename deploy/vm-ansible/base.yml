@@ -1,0 +1,44 @@
+---
+# Deploys the base components for the demo environment
+
+- name: Deploy an Azure network environment
+  hosts: localhost
+  connection: local
+  vars_files:
+    - vars.yml
+
+  tasks:
+    - name: Create the resource group
+      azure_rm_resourcegroup:
+        name: "{{ resource_group_name }}"
+        location: "{{ azure_region }}"
+        state: present
+        tags: "{{ default_tags }}"
+
+    - name: Virtual network
+      azure_rm_virtualnetwork:
+        name: "{{ virtual_network.name }}"
+        resource_group: "{{ resource_group_name }}"
+        address_prefixes_cidr: "{{ virtual_network.cidr }}"
+        state: present
+        tags: "{{ default_tags }}"
+
+    - name: NSGs
+      azure_rm_securitygroup:
+        name: "{{ item.name }}"
+        resource_group: "{{ resource_group_name }}"
+        state: present
+        purge_rules: yes
+        rules: "{{ item.rules }}"
+        tags: "{{ default_tags }}"
+      with_items: "{{ security_groups }}"
+
+    - name: Subnets
+      azure_rm_subnet:
+        name: "{{ item.name }}"
+        resource_group: "{{ resource_group_name }}"
+        address_prefix_cidr: "{{ item.address_prefix_cidr }}"
+        virtual_network_name: "{{ virtual_network.name }}"
+        security_group_name: "{{ item.security_group_name }}"
+        state: present
+      with_items: "{{ subnets }}"
