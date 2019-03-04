@@ -28,6 +28,7 @@ In this demonstration I'll configure an Azure environment that consists of:
   * `dmz`: 10.42.25.0/24
   * `external`: 10.42.50.0/24
 * Network security groups (NSGs) for the subnets
+* A Linux Virtual Machine hosting the web application
 
 This will make extensive use of the [Ansible Azure module](http://docs.ansible.com/ansible/latest/list_of_cloud_modules.html#azure).
 
@@ -40,25 +41,43 @@ This will make extensive use of the [Ansible Azure module](http://docs.ansible.c
 
 Ansible can deploy and manage most operating systems but it requires a *nix (e.g. Linux or OS X) host for the control machine.
 
-## Prepare an SSH Key
+Make sure you have the [Azure CLI installed](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest).
+
+### Prepare an SSH Key
 
 Ansible will use an SSH Key to access the host so we need to create one:
 
     ssh-keygen -C "Ansible user" -f ~/.ssh/ansible
+
+### Setup Ansible
+
+I've used [Pipenv](https://pipenv.readthedocs.io/en/latest/) to help get started. Working from this directory,
+run the following to get the required environment set up:
+
+    pipenv install
+
+You can then work interactively in the environment with:
+
+    pipenv shell
 
 ### Ansible access to Azure
 
 You need to take [a few quick steps](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ansible-install-configure#create-azure-credentials)
 to configure access to Azure. The Microsoft document outlines manual tasks but you should be able to just run the following:
 
-    sudo apt install azure-cli python-pip yamllint
-    sudo pip install --upgrade pip
-    sudo pip install packaging msrestazure
-    sudo pip install ansible[azure] --upgrade
+First of all, login to Azure:
 
     az login
 
-    AZURE_TMP_SP=$(az ad sp create-for-rbac --name ansible-demo --role Contributor --years 1 --output tsv)
+Next we'll create a service principal (SP) that is used to deploy from Ansible. Note that I
+give the `Contributor` role - that's pretty broad and you'd tighten that up as needed.
+You only need to do this once:
+
+    az ad sp create-for-rbac --name http://ansible-demo/webapp --role Contributor --years 1 --output tsv
+
+We now [create a credentials file](https://docs.microsoft.com/en-us/azure/virtual-machines/linux/ansible-install-configure#file-credentials) for use by Ansible:
+
+    AZURE_TMP_SP=$(az ad sp show --id http://ansible-demo/webapp --output tsv)
 
     AZURE_TMP_SUB=$(az account show --output tsv --query 'id')
 
@@ -67,9 +86,9 @@ to configure access to Azure. The Microsoft document outlines manual tasks but y
     cat >~/.azure/credentials<<EOM
     [default]
     subscription_id=$AZURE_TMP_SUB
-    client_id=$(echo $AZURE_TMP_SP|cut -f 1 -d " ")
-    secret=$(echo $AZURE_TMP_SP|cut -f 4 -d " ")
-    tenant=$(echo $AZURE_TMP_SP|cut -f 5 -d " ")
+    client_id=$(echo $AZURE_TMP_SP|cut -f 5 -d " ")
+    secret=XXXX
+    tenant=$(echo $AZURE_TMP_SP|cut -f 6 -d " ")
     EOM
     chmod 600 ~/.azure/credentials
 
@@ -96,8 +115,3 @@ The `destroy.yml` playbook will blow away the resource group. There's no going b
     ansible-playbook destroy.ymlx
 
 (_Typo is on-purpose_)
-
-
-## Going further
-
-* [Deploy and configure a single host](ManagingHosts.md)
