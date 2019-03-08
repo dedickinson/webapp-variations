@@ -1,5 +1,7 @@
 # Azure Dev Spaces
 
+__NOT COMPLETE__
+
 [Azure Dev Spaces](https://docs.microsoft.com/en-us/azure/dev-spaces/) provides a development
 environment for Kubernetes - just note that it's in preview at the moment.
 

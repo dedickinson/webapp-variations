@@ -1,6 +1,35 @@
 # Azure Kubernetes Services (AKS)
 
-## Step 1: Setup AKS
+[`kubectl`](https://kubernetes.io/docs/tasks/tools/install-kubectl/) is the primary 
+command line tool for working with Kubernetes. It's worth installing that first of all - note that you
+can do this via the `az` cli but I'd suggest going to the Kubernetes site and following their install
+instructions.
+
+I'd also suggest you use the [Kubernetes extension for VS Code](https://marketplace.visualstudio.com/items?itemName=ms-kubernetes-tools.vscode-kubernetes-tools).
+
+## Try out Minikube
+
+Before running up a Kubernetes cluster in Azure, why not try [Minikube](https://kubernetes.io/docs/setup/minikube/)
+on your local machine?
+
+Once you've installed Minikube you can get running quickly with:
+
+```bash
+# Start Minikube
+minikube start
+
+# Configure kubectl to access Minikube
+kubectl config use-context minikube
+```
+
+It's always handy to use the dashboard whilst you're working:
+
+    minikube dashboard
+
+From there you can run most of the commands given in Step 3 and on in the next section. 
+
+## Get AKS running
+### Step 1: Setup AKS
 
 First we'll set up some variables:
 
@@ -30,7 +59,7 @@ az aks create --resource-group $RESOURCE_GROUP \
             --generate-ssh-keys
 ```
 
-## Step 2: Connect to your Kubernetes environmemt
+### Step 2: Connect to your Kubernetes environmemt
 
 First of all, install the `kubectl` cli:
 
@@ -54,7 +83,7 @@ Then launch the dashboard:
 
     az aks browse --resource-group wb-js-site-aks --name wb-js-site-aks
 
-## Step 3: Create a `dev` namespace
+### Step 3: Create a `dev` namespace
 
 Check the currently available namespaces
 
@@ -64,46 +93,8 @@ Make sure you're in the `deploy/azure-aks` directory and create the `dev` namesp
 
     kubectl create -f ./dev-namespace.yaml
 
-## Step 4: Setup Helm
-
-First up, [install Helm](https://helm.sh/docs/using_helm/#installing-helm). Note that I'll 
-run without [TLS between Helm and Tiller](https://helm.sh/docs/using_helm/#using-ssl-between-helm-and-tiller)
-as I'll blow away the cluster in the short-term.
-
-The [documentation for setting up Helm](https://docs.microsoft.com/en-us/azure/aks/kubernetes-helm)
-is pretty good so I'll summarise here:
-
-```bash
-kubectl create -f ./helm-rbac.yaml
-helm init --service-account tiller
-```
 
 
-## Step 5: Setup Draft
 
-I'll use [Draft](https://draft.sh/) to help deployment. 
 
-Install Draft as per the [instructions](https://github.com/azure/draft). I just downloaded
-the binary and installed it under `/usr/local/bin`.
-
-Working from the project root directory:
-
-```bash
-draft init
-draft create --pack javascript
-```
-
-Configuration:
-
-```bash
-draft config set registry $ACR_NAME.azurecr.io
-az acr login --name $ACR_NAME
-```
-
-Run:
-
-```bash
-draft up
-kubectl get service --watch
-```
 
