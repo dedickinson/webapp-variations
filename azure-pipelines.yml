@@ -1,8 +1,11 @@
 pool:
-  vmImage: Hosted VS2017
-  demands: npm
+  vmImage: 'ubuntu-16.04'
 
 steps:
+  - task: NodeTool@0 
+    inputs:
+      versionSpec: '10.x'
+
   - task: Npm@0
     displayName: "npm install"
     inputs:
