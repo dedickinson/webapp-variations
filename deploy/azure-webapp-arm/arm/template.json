@@ -23,6 +23,10 @@
         "deployment_location": {
             "type": "string",
             "defaultValue": "Central US"
+        },
+        "node_version": {
+            "type": "string",
+            "defaultValue": "8.10.0"
         }
     },
     "variables": {},
@@ -54,14 +58,20 @@
                     "netFrameworkVersion": "v4.0",
                     "phpVersion": null,
                     "pythonVersion": null,
-                    "nodeVersion": "8.10.0",
+                    "nodeVersion": "[parameters('node_version')]",
                     "javaVersion": null,
                     "javaContainer": null,
                     "javaContainerVersion": null,
                     "siteAuthEnabled": false,
                     "http20Enabled": false,
                     "minTlsVersion": "1.2",
-                    "ftpsState": "Disabled"                    
+                    "ftpsState": "Disabled",
+                    "appSettings": [
+                        {
+                            "name": "WEBSITE_NODE_DEFAULT_VERSION",
+                            "value": "[parameters('node_version')]"
+                        }
+                    ]
                 }
             },
             "dependsOn": [
