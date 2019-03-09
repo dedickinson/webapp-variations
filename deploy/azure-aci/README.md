@@ -104,7 +104,7 @@ Once you `git push` a change, the image should be rebuilt. You can track the tas
 
 ## Step 4: Use the image locally
 
-You can grab your ACR images and run them
+You can grab your ACR images and run them on your local system.
 
 To login to the registry:
 
