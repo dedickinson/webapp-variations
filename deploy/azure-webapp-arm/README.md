@@ -7,6 +7,9 @@ Azure Web Apps are a really good approach to running up a web application -
 you don't need to run any infrastructure but you have flexibility in terms of
 scaling, security, languages etc.
 
+This variation relies on `azure-pipelines.yml` (in the project root) to define
+the [Azure DevOps pipeline](https://docs.microsoft.com/en-us/azure/devops/pipelines/get-started/key-pipelines-concepts?view=azure-devops#pipeline).  
+
 ## Step 1: Fork this repository
 
 Log into GitHub and head to https://github.com/dedickinson/webapp-variations. 
@@ -65,7 +68,7 @@ Take a read through the `azure-pipelines.yml` content and you'll see it:
 
 1. Runs `npm install --only=production` to install the required modules
 1. Packages up your site as a zip archive (allowing you download this as a build artifact)
-1. Deploys the Azure resources defined in [template.json](template.json)
+1. Deploys the Azure resources defined in [template.json](arm/template.json)
 1. Deploys the site code to the Azure Web App
 
 You can now click `Run` and get the build configured. 

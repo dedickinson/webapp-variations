@@ -4,13 +4,9 @@ This repository contains sources that demonstrate various approaches to deployin
 and will walk through a variety of mechanisms for deploying the app to
 Azure.
 
-I'm currently working on:
-
-1. [Azure Web App with Azure DevOps](deploy/azure-webapp-arm)
-
 The variations that are ready to go right now are:
 
-1. None yet
+1. [Azure Web App with Azure DevOps](deploy/azure-webapp-arm)
 
 ## Pre-requisites
 
