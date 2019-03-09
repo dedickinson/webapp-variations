@@ -7,6 +7,7 @@ Azure.
 The variations that are ready to go right now are:
 
 1. [Azure Web App with Azure DevOps](deploy/azure-webapp-arm)
+1. [Azure Container Instances](deploy/azure-aci)
 
 ## Pre-requisites
 
