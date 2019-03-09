@@ -16,22 +16,30 @@ steps:
     displayName: "Archive webapp src"
     inputs:
       rootFolderOrFile: src
-      includeRootFolder: true
-
-  - task: ArchiveFiles@2
-    displayName: "Archive webapp deployment template"
-    inputs:
-      rootFolderOrFile: deploy/azure-webapp-arm/arm
-      includeRootFolder: true
+      includeRootFolder: false
 
   - task: CopyFiles@2
     displayName: "Copy File to: $(TargetFolder)"
     inputs:
       SourceFolder: "$(Build.ArtifactStagingDirectory)"
       Contents: "$(Build.BuildId).zip"
-      TargetFolder: '$(Build.ArtifactStagingDirectory)\ArtifactsToBePublished'
+      TargetFolder: '$(Build.ArtifactStagingDirectory)/ArtifactsToBePublished/src'
 
   - task: PublishBuildArtifacts@1
     displayName: "Publish Artifact: webapp-src"
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)\ArtifactsToBePublished'
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/ArtifactsToBePublished/src'
+      artifactName: 'src-drop'
+
+  - task: CopyFiles@2
+    displayName: "Copy webapp deployment template"
+    inputs:
+      rootFolderOrFile: '$(Build.SourcesDirectory)/deploy/azure-webapp-arm/arm'
+      includeRootFolder: false
+      targetFolder: '$(Build.ArtifactStagingDirectory)/ArtifactsToBePublished/deploy'
+
+  - task: PublishBuildArtifacts@1
+    displayName: "Publish Artifact: deploy-src"
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)/ArtifactsToBePublished/deploy'
+      artifactName: 'deploy-drop'
