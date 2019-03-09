@@ -34,8 +34,7 @@ steps:
   - task: CopyFiles@2
     displayName: "Copy webapp deployment template"
     inputs:
-      rootFolderOrFile: '$(Build.SourcesDirectory)/deploy/azure-webapp-arm/arm'
-      includeRootFolder: false
+      SourceFolder: '$(Build.SourcesDirectory)/deploy/azure-webapp-arm/arm'
       targetFolder: '$(Build.ArtifactStagingDirectory)/ArtifactsToBePublished/deploy'
 
   - task: PublishBuildArtifacts@1
