@@ -52,22 +52,16 @@
                 "httpsOnly": true,
                 "siteConfig": {
                     "netFrameworkVersion": "v4.0",
-                    "phpVersion": "",
-                    "pythonVersion": "",
-                    "nodeVersion": "10.0.0",
+                    "phpVersion": null,
+                    "pythonVersion": null,
+                    "nodeVersion": "8.10.0",
                     "javaVersion": null,
                     "javaContainer": null,
                     "javaContainerVersion": null,
                     "siteAuthEnabled": false,
                     "http20Enabled": false,
                     "minTlsVersion": "1.2",
-                    "ftpsState": "Disabled",
-                    "appSettings": [
-                        {
-                          "name": "WEBSITE_NODE_DEFAULT_VERSION",
-                          "value": "8.10"
-                        }
-                      ]
+                    "ftpsState": "Disabled"                    
                 }
             },
             "dependsOn": [

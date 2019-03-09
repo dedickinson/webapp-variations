@@ -9,8 +9,8 @@ steps:
   - task: Npm@1
     displayName: "npm install"
     inputs:
-      cwd: src
-      arguments: "--only=production"
+      command: install
+      workingDir: src/
 
   - task: ArchiveFiles@2
     displayName: "Archive webapp src"
