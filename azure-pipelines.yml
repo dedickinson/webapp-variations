@@ -7,6 +7,16 @@ variables:
 pool:
   vmImage: 'vs2017-win2016'
 
+trigger:
+  branches:
+    include: 
+    - master
+  paths:
+    include:
+    - azure-pipelines.yml
+    - src/*
+    - deploy/azure-webapp-arm/*
+
 steps:
   - task: NodeTool@0 
     inputs:
