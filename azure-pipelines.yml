@@ -1,3 +1,9 @@
+variables:
+  AzureConnection: 'Azure Subscription'
+  ResourceGroup: 'webapp-variations'
+  ResourceLocation: 'Central US'
+  SiteName: 'wb-js-site-basic-arm'
+
 pool:
   vmImage: 'ubuntu-16.04'
 
@@ -32,14 +38,24 @@ steps:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)/ArtifactsToBePublished/src'
       artifactName: 'src-drop'
 
-  - task: CopyFiles@2
-    displayName: "Copy webapp deployment template"
+  - task: AzureResourceGroupDeployment@2
+    displayName: 'Create Or Update Resource Group'
     inputs:
-      SourceFolder: '$(Build.SourcesDirectory)/deploy/azure-webapp-arm/arm'
-      targetFolder: '$(Build.ArtifactStagingDirectory)/ArtifactsToBePublished/deploy'
+      azureSubscription: '$(AzureConnection)'
+      resourceGroupName: '$(ResourceGroup)'
+      location: '$(ResourceLocation)'
+      csmFile: '$(Build.SourcesDirectory)/deploy/azure-webapp-arm/arm/template.json'
+      overrideParameters: '-site_name "$(SiteName)" -app_service_plan_name "$(SiteName)" -app_service_plan_sku {"name":"F1","tier":"Free","size":"F1","family":"F","capacity":0} -deployment_location "$(ResourceLocation)"'
 
-  - task: PublishBuildArtifacts@1
-    displayName: "Publish Artifact: deploy-src"
+  - task: AzureRmWebAppDeployment@3
+    displayName: 'Deploy Azure App Service'
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)/ArtifactsToBePublished/deploy'
-      artifactName: 'deploy-drop'
+      azureSubscription: '$(AzureConnection)'
+      WebAppName: '$(SiteName)'
+      Package: '$(Build.ArtifactStagingDirectory)/ArtifactsToBePublished/src/$(Build.BuildId).zip'
+      GenerateWebConfig: true
+      WebConfigParameters: '-Handler iisnode -NodeStartFile server.js -appType node'
+      TakeAppOfflineFlag: true
+      UseWebDeploy: true
+      RemoveAdditionalFilesFlag: true
+      RenameFilesFlag: true
