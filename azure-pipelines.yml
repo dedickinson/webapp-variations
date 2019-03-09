@@ -6,17 +6,23 @@ steps:
     inputs:
       versionSpec: '8.x'
 
-  - task: Npm@0
+  - task: Npm@1
     displayName: "npm install"
     inputs:
       cwd: src
       arguments: "--only=production"
 
   - task: ArchiveFiles@2
-    displayName: "Archive src"
+    displayName: "Archive webapp src"
     inputs:
       rootFolderOrFile: src
-      includeRootFolder: false
+      includeRootFolder: true
+
+  - task: ArchiveFiles@2
+    displayName: "Archive webapp deployment template"
+    inputs:
+      rootFolderOrFile: deploy/azure-webapp-arm/arm
+      includeRootFolder: true
 
   - task: CopyFiles@2
     displayName: "Copy File to: $(TargetFolder)"
@@ -26,6 +32,6 @@ steps:
       TargetFolder: '$(Build.ArtifactStagingDirectory)\ArtifactsToBePublished'
 
   - task: PublishBuildArtifacts@1
-    displayName: "Publish Artifact: drop"
+    displayName: "Publish Artifact: webapp-src"
     inputs:
       PathtoPublish: '$(Build.ArtifactStagingDirectory)\ArtifactsToBePublished'
