@@ -4,17 +4,20 @@ This repository contains sources that demonstrate various approaches to deployin
 and will walk through a variety of mechanisms for deploying the app to
 Azure.
 
+I'm currently working on:
+
+1. [Azure Web App with Azure DevOps](deploy/azure-webapp-arm)
+
 The variations that are ready to go right now are:
 
-1. [Azure Web App](deploy/azure-webapp-arm)
-1. [Azure Container Instances](deploy/azure-aci)
+1. None yet
 
 ## Pre-requisites
 
 To get started you'll need a few key items installed:
 
 * [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest)
-* [Node.js](https://nodejs.org/en/) - I'm running 10.x
+* [Node.js](https://nodejs.org/en/) - I'm running 8.x
 * [jq](https://stedolan.github.io/jq/download/)
 
 You'll also need an Azure account. Microsoft offer a [free account](https://azure.microsoft.com/en-au/free/) to help you get started.
