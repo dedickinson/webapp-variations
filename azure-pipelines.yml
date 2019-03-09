@@ -10,7 +10,7 @@ steps:
     displayName: "npm install (production)"
     inputs:
       command: custom
-      customCommand: npm install --only=production
+      customCommand: install --only=production
       workingDir: src/
 
   - task: ArchiveFiles@2
