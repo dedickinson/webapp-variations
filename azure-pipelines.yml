@@ -10,7 +10,7 @@ steps:
     displayName: "npm install"
     inputs:
       cwd: src
-      arguments: "--force"
+      arguments: "--only=production"
 
   - task: ArchiveFiles@2
     displayName: "Archive src"
