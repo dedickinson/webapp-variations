@@ -65,7 +65,7 @@ The `az webapp up` command
 ```bash
 cd src
 npm install
-az webapp up --name webapp-variations-dev
+az webapp up --name webapp-variations-dev --sku B1
 ```
 
 Once the app has been deployed you'll see the details, including the App URL:
