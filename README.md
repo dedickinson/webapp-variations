@@ -56,11 +56,12 @@ The home page is just a templated web page, nothing fancy. If you
 try [http://localhost:3000/documentation](http://localhost:3000/documentation) you'll see that there's also a single-function API
 at [http://localhost:3000/api/random](http://localhost:3000/api/random).
 
-### Variation: webapp up
+### Variation: webapp up (preview)
 
 I'll throw this little variation here so you can get an Azure Web App running really quickly.
 
-The `az webapp up` command 
+Running the `az webapp up` command from the `src/` directory will setup an Azure Web App
+environment and deploy the code. It's a super easy way to get started:
 
 ```bash
 cd src
@@ -82,6 +83,9 @@ Once the app has been deployed you'll see the details, including the App URL:
         "version_detected": "1.1",
         "version_to_create": "node|8.11"
     }
+
+Essentially, Azure will run up an appropriate container to house the app. 
+I cover the more comprehensive approach in [Azure Web App via a container](deploy/azure-webapp-container).
 
 ## Some other quick notes
 
