@@ -1,0 +1,48 @@
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  name: webapp-variation-deployment
+  namespace: dev
+  labels:
+    app: webapp-variation
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webapp-variation
+  template:
+    metadata:
+      labels:
+        app: webapp-variation
+    spec:
+      containers:
+        - name: webapp-variation-container
+          image: webappvariations.azurecr.io/webapp-variation:cj7
+          env:
+            - name: PORT
+              value: "6000"
+          ports:
+            - containerPort: 6000
+          resources:
+            limits:
+              memory: "256M"
+              cpu: "0.5"
+            requests:
+              memory: "128M"
+              cpu: "0.25"
+          readinessProbe:
+            httpGet:
+              path: /healthz
+              port: 6000
+          livenessProbe:
+            periodSeconds: 60
+            httpGet:
+              path: /healthz
+              port: 6000
+          securityContext:
+            allowPrivilegeEscalation: false
+            privileged: false
+            readOnlyRootFilesystem: true
+      imagePullSecrets:
+      - name: acr-auth
+
