@@ -10,6 +10,7 @@ The variations that are ready to go right now are:
 1. [Azure Container Instances](deploy/azure-aci/README.md)
 1. [Azure Web App via a container](deploy/azure-webapp-container/README.md)
 1. [Azure Kubernetes Services (AKS)](deploy/azure-aks/README.md)
+1. [Azure Kubernetes Services (AKS) with Helm](deploy/azure-aks-helm/README.md)
 
 ## Pre-requisites
 

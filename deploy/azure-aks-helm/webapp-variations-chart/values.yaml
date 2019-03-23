@@ -1,0 +1,35 @@
+# Default values for webapp-variations-chart.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  registry: your_registry
+  repository: webapp-variation
+  tag: release
+  pullPolicy: IfNotPresent
+
+nameOverride: ""
+fullnameOverride: ""
+
+registryCredentials:
+  name: acr
+  registry: your_repo
+  username: your_username
+  password: your_password
+
+imagePullSecrets:
+  - name: acr
+
+resources: 
+    limits:
+      memory: "256M"
+      cpu: "0.5"
+    requests:
+      memory: "128M"
+      cpu: "0.25"
+
+service:
+  type: NodePort
+  port: 80
