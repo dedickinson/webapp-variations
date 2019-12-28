@@ -19,7 +19,7 @@
   "author": "Duncan Dickinson",
   "license": "BSD-2-Clause",
   "dependencies": {
-    "handlebars": "^4.1.0",
+    "handlebars": "^4.3.0",
     "hapi": "^17.8.4",
     "hapi-swagger": "^9.3.1",
     "inert": "^5.1.2",
